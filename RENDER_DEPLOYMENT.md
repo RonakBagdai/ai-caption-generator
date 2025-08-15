@@ -3,6 +3,7 @@
 ## Complete Step-by-Step Render Deployment
 
 ### Why Choose Render? 🌟
+
 - **Full-Stack Support**: Deploy both frontend and backend easily
 - **Free Tier**: 750 hours/month of free hosting
 - **Auto-Deploy**: Automatic deployments from GitHub
@@ -11,6 +12,7 @@
 - **Persistent Storage**: Better for full-stack apps than serverless
 
 ### Prerequisites ✅
+
 - GitHub repository with your project
 - Render account (free tier available)
 - MongoDB Atlas account for database
@@ -19,6 +21,7 @@
 ### Step 1: Prepare Your Project
 
 Your project structure is already optimized for Render:
+
 ```
 Day-136/
 ├── frontend/          # React app
@@ -37,6 +40,7 @@ Day-136/
 ### Step 3: Deploy Backend API (Web Service)
 
 1. **Create New Web Service**
+
    - Go to Render Dashboard
    - Click "New +" → "Web Service"
    - Connect your GitHub repository
@@ -44,6 +48,7 @@ Day-136/
    - Set Root Directory: `Day-136`
 
 2. **Configure Backend Service**
+
    ```
    Name: ai-caption-generator-api
    Environment: Node
@@ -55,6 +60,7 @@ Day-136/
    ```
 
 3. **Add Environment Variables**
+
    ```
    NODE_ENV=production
    PORT=10000
@@ -75,11 +81,13 @@ Day-136/
 ### Step 4: Deploy Frontend (Static Site)
 
 1. **Create Static Site**
+
    - Click "New +" → "Static Site"
    - Connect same GitHub repository
    - Set Root Directory: `Day-136`
 
 2. **Configure Frontend Service**
+
    ```
    Name: ai-caption-generator-frontend
    Branch: main
@@ -89,6 +97,7 @@ Day-136/
    ```
 
 3. **Add Environment Variables**
+
    ```
    VITE_API_BASE_URL=https://ai-caption-generator-api.onrender.com
    ```
@@ -103,6 +112,7 @@ Day-136/
 You can also use the provided `render.yaml` file for automated deployment:
 
 1. **Push render.yaml to GitHub**
+
    ```bash
    git add render.yaml
    git commit -m "Add Render configuration"
@@ -119,6 +129,7 @@ You can also use the provided `render.yaml` file for automated deployment:
 Update your frontend environment configuration:
 
 1. **Check frontend/.env.production**
+
    ```
    VITE_API_BASE_URL=https://ai-caption-generator-api.onrender.com
    ```
@@ -129,6 +140,7 @@ Update your frontend environment configuration:
 ### Step 7: Verify Deployment
 
 1. **Test Backend API**
+
    - Visit: `https://ai-caption-generator-api.onrender.com/api/users/health`
    - Should return API health status
 
@@ -140,14 +152,14 @@ Update your frontend environment configuration:
 
 ### Environment Variables Setup Guide
 
-| Variable | Description | Where to Get |
-|----------|-------------|--------------|
-| `MONGODB_URI` | Database connection | MongoDB Atlas → Connect → Drivers |
-| `JWT_SECRET` | JWT signing key | Generate: `openssl rand -base64 32` |
-| `GOOGLE_API_KEY` | Google Gemini API | Google AI Studio → API Keys |
-| `IMAGEKIT_PUBLIC_KEY` | ImageKit public key | ImageKit Dashboard → Developer Options |
-| `IMAGEKIT_PRIVATE_KEY` | ImageKit private key | ImageKit Dashboard → Developer Options |
-| `IMAGEKIT_URL_ENDPOINT` | ImageKit URL endpoint | ImageKit Dashboard → URL Endpoint |
+| Variable                | Description           | Where to Get                           |
+| ----------------------- | --------------------- | -------------------------------------- |
+| `MONGODB_URI`           | Database connection   | MongoDB Atlas → Connect → Drivers      |
+| `JWT_SECRET`            | JWT signing key       | Generate: `openssl rand -base64 32`    |
+| `GOOGLE_API_KEY`        | Google Gemini API     | Google AI Studio → API Keys            |
+| `IMAGEKIT_PUBLIC_KEY`   | ImageKit public key   | ImageKit Dashboard → Developer Options |
+| `IMAGEKIT_PRIVATE_KEY`  | ImageKit private key  | ImageKit Dashboard → Developer Options |
+| `IMAGEKIT_URL_ENDPOINT` | ImageKit URL endpoint | ImageKit Dashboard → URL Endpoint      |
 
 ### Render Configuration Benefits
 
@@ -168,10 +180,12 @@ Update your frontend environment configuration:
 ### Performance Optimization Tips
 
 1. **Enable Persistent Disks**
+
    - For faster builds and caching
    - Available on paid plans
 
 2. **Use Environment Regions**
+
    - Deploy close to your users
    - Available regions: US West, US East, Frankfurt, Singapore
 
@@ -182,6 +196,7 @@ Update your frontend environment configuration:
 ### Monitoring and Logs
 
 1. **Access Logs**
+
    - Go to Service → Logs tab
    - Real-time log streaming
    - Download logs for analysis
@@ -201,16 +216,19 @@ Update your frontend environment configuration:
 ### Troubleshooting Common Issues
 
 1. **Build Failures**
+
    - Check build logs in Render dashboard
    - Verify `package.json` dependencies
    - Ensure build commands are correct
 
 2. **Service Not Starting**
+
    - Check start command: `npm start`
    - Verify PORT environment variable
    - Check application logs
 
 3. **CORS Issues**
+
    - Update CORS_ORIGIN to match frontend URL
    - Ensure frontend API calls use correct base URL
 
@@ -238,6 +256,7 @@ Update your frontend environment configuration:
 Your AI Caption Generator is now live on Render! 🚀
 
 **Live URLs:**
+
 - Frontend: `https://ai-caption-generator-frontend.onrender.com`
 - Backend API: `https://ai-caption-generator-api.onrender.com`
 
