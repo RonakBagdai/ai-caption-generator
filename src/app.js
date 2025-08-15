@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const authRoutes = require("./routes/auth.routes");
 const postRoutes = require("./routes/post.routes");
 const userRoutes = require("./routes/user.routes");
@@ -24,14 +25,19 @@ app.use(cookieParser());
 // CORS configuration
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN || process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
   })
 );
 
-// Serve static files from React build (for production)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Check if frontend build exists
+const frontendDistPath = path.join(__dirname, "../frontend/dist");
+const frontendIndexPath = path.join(frontendDistPath, "index.html");
+const hasFrontendBuild = fs.existsSync(frontendIndexPath);
+
+// Serve static files from React build (only if build exists)
+if (process.env.NODE_ENV === "production" && hasFrontendBuild) {
+  app.use(express.static(frontendDistPath));
 }
 
 // Apply general rate limiting
@@ -48,22 +54,47 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
     version: "1.0.0",
+    deployment: "backend-only",
+    mongodb: "connected"
   });
 });
 
-// Serve React app for any non-API routes (for production)
-if (process.env.NODE_ENV === "production") {
+// API status endpoint
+app.get("/", (req, res) => {
+  res.json({
+    message: "AI Caption Generator API",
+    status: "running",
+    version: "1.0.0",
+    endpoints: {
+      auth: "/api/auth",
+      posts: "/api/posts", 
+      user: "/api/user",
+      health: "/health"
+    },
+    docs: "See README.md for API documentation"
+  });
+});
+
+// Serve React app for any non-API routes (only if frontend build exists)
+if (process.env.NODE_ENV === "production" && hasFrontendBuild) {
   app.get("*", (req, res) => {
     // Don't serve React app for API routes
     if (req.path.startsWith("/api")) {
       return res.status(404).json({ message: "API route not found" });
     }
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    res.sendFile(frontendIndexPath);
   });
 } else {
-  // 404 handler for development
-  app.use((req, res) => {
-    res.status(404).json({ message: "Route not found" });
+  // 404 handler for non-API routes when no frontend build
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/api")) {
+      return res.status(404).json({ message: "API route not found" });
+    }
+    res.status(404).json({ 
+      message: "Frontend not available in this deployment",
+      api_available: true,
+      endpoints: ["/api/auth", "/api/posts", "/api/user", "/health"]
+    });
   });
 }
 
