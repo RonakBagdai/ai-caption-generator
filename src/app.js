@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const authRoutes = require("./routes/auth.routes");
 const postRoutes = require("./routes/post.routes");
 const userRoutes = require("./routes/user.routes");
@@ -28,6 +29,11 @@ app.use(
   })
 );
 
+// Serve static files from React build (for production)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+}
+
 // Apply general rate limiting
 app.use("/api", apiLimiter);
 
@@ -37,13 +43,29 @@ app.use("/api/user", userRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
-  res.json({ status: "OK", timestamp: new Date().toISOString() });
+  res.json({ 
+    status: "OK", 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+    version: "1.0.0"
+  });
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
+// Serve React app for any non-API routes (for production)
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    // Don't serve React app for API routes
+    if (req.path.startsWith("/api")) {
+      return res.status(404).json({ message: "API route not found" });
+    }
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
+} else {
+  // 404 handler for development
+  app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" });
+  });
+}
 
 // Global error handler
 app.use((err, req, res, next) => {

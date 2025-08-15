@@ -44,28 +44,32 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 ### Development Setup
 
 1. **Clone your fork**
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/ai-caption-generator.git
    cd ai-caption-generator
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    cd frontend && npm install && cd ..
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
 4. **Start development servers**
+
    ```bash
    # Backend
    npm start
-   
+
    # Frontend (in another terminal)
    cd frontend && npm run dev
    ```
@@ -134,6 +138,7 @@ test: add unit tests for caption generation
 ```
 
 **Types:**
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation only changes
@@ -147,6 +152,7 @@ test: add unit tests for caption generation
 We especially welcome contributions in these areas:
 
 ### 🔧 Technical Improvements
+
 - **Performance optimizations**
 - **Security enhancements**
 - **Code refactoring**
@@ -154,6 +160,7 @@ We especially welcome contributions in these areas:
 - **Documentation updates**
 
 ### ✨ Features
+
 - **New caption styles**
 - **Additional language support**
 - **UI/UX improvements**
@@ -161,6 +168,7 @@ We especially welcome contributions in these areas:
 - **Analytics features**
 
 ### 🐛 Bug Fixes
+
 - **Cross-browser compatibility**
 - **Mobile responsiveness issues**
 - **API error handling**
@@ -182,23 +190,28 @@ We especially welcome contributions in these areas:
 
 ```markdown
 ## Description
+
 Brief description of the changes
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Breaking change
 - [ ] Documentation update
 
 ## Testing
+
 - [ ] Tests pass locally
 - [ ] Added new tests for features
 - [ ] Manual testing completed
 
 ## Screenshots (if applicable)
+
 Add screenshots to help explain your changes
 
 ## Checklist
+
 - [ ] Code follows style guidelines
 - [ ] Self-review completed
 - [ ] Documentation updated
