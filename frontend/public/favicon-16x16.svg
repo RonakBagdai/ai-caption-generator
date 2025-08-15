@@ -1,0 +1,22 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="8" cy="8" r="8" fill="url(#gradient)"/>
+  
+  <!-- AI Brain icon (simplified for small size) -->
+  <path d="M6 4c-1.1 0-2 .9-2 2 0 .5.2 1 .5 1.4-.3.4-.5.9-.5 1.4 0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.4.3-.4.5-.9.5-1.4 0-1.1-.9-2-2-2H6z" fill="white" fill-opacity="0.9"/>
+  
+  <!-- Simple circuit dot -->
+  <circle cx="8" cy="7" r="0.5" fill="#4F46E5"/>
+  
+  <!-- Caption lines -->
+  <rect x="4" y="11" width="4" height="0.8" rx="0.4" fill="white" fill-opacity="0.8"/>
+  <rect x="4" y="12.2" width="3" height="0.8" rx="0.4" fill="white" fill-opacity="0.6"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
