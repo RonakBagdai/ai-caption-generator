@@ -25,11 +25,11 @@ app.use(cookieParser());
 // CORS configuration
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:3000", 
+  "http://localhost:3000",
   "https://ai-caption-generator-1-yu1k.onrender.com",
   "https://ai-caption-generator-frontend.onrender.com",
   process.env.CORS_ORIGIN,
-  process.env.FRONTEND_URL
+  process.env.FRONTEND_URL,
 ].filter(Boolean);
 
 app.use(
@@ -37,12 +37,12 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      
+
       if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        console.log('CORS blocked origin:', origin);
-        callback(new Error('Not allowed by CORS'));
+        console.log("CORS blocked origin:", origin);
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
@@ -74,7 +74,7 @@ app.get("/health", (req, res) => {
     environment: process.env.NODE_ENV || "development",
     version: "1.0.0",
     deployment: "backend-only",
-    mongodb: "connected"
+    mongodb: "connected",
   });
 });
 
@@ -86,11 +86,11 @@ app.get("/", (req, res) => {
     version: "1.0.0",
     endpoints: {
       auth: "/api/auth",
-      posts: "/api/posts", 
+      posts: "/api/posts",
       user: "/api/user",
-      health: "/health"
+      health: "/health",
     },
-    docs: "See README.md for API documentation"
+    docs: "See README.md for API documentation",
   });
 });
 
@@ -109,10 +109,10 @@ if (process.env.NODE_ENV === "production" && hasFrontendBuild) {
     if (req.path.startsWith("/api")) {
       return res.status(404).json({ message: "API route not found" });
     }
-    res.status(404).json({ 
+    res.status(404).json({
       message: "Frontend not available in this deployment",
       api_available: true,
-      endpoints: ["/api/auth", "/api/posts", "/api/user", "/health"]
+      endpoints: ["/api/auth", "/api/posts", "/api/user", "/health"],
     });
   });
 }

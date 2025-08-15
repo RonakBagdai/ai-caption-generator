@@ -21,8 +21,8 @@ async function registerController(req, res) {
   });
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false, // set true in production over HTTPS
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: process.env.NODE_ENV === "production", // true in production over HTTPS
     maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
   });
 
@@ -32,6 +32,7 @@ async function registerController(req, res) {
   return res.status(201).json({
     message: "User registered successfully",
     user: { _id: user._id, username: user.username },
+    token: token, // Also return token in response for cross-origin scenarios
     tokenExpiry: expiryTime.toISOString(),
   });
 }
@@ -60,8 +61,8 @@ async function loginController(req, res) {
 
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false, // set true in production over HTTPS
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: process.env.NODE_ENV === "production", // true in production over HTTPS
     maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
   });
 
@@ -72,6 +73,7 @@ async function loginController(req, res) {
   return res.status(200).json({
     message: "Login successful",
     user: { username: user.username, _id: user._id },
+    token: token, // Also return token in response for cross-origin scenarios
     tokenExpiry: expiryTime.toISOString(),
   });
 }

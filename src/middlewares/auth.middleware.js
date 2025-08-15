@@ -2,9 +2,32 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/user.model");
 
 async function authMiddleware(req, res, next) {
-  const token = req.cookies.token;
+  // Try to get token from multiple sources
+  let token = req.cookies.token;
+  
+  // If no cookie token, try Authorization header
+  if (!token && req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    }
+  }
+  
+  // If still no token, try x-auth-token header
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    token = req.headers['x-auth-token'];
+  }
+
+  if (!token) {
+    return res.status(401).json({ 
+      message: "Unauthorized",
+      code: "NO_TOKEN",
+      debug: {
+        hasCookie: !!req.cookies.token,
+        hasAuthHeader: !!req.headers.authorization,
+        hasXAuthToken: !!req.headers['x-auth-token']
+      }
+    });
   }
 
   try {

@@ -12,7 +12,7 @@ import {
   logout as logoutApi,
 } from "../api/auth";
 import tokenManager from "../utils/tokenManager";
-import { setTokenExpiredHandler } from "../api/client";
+import { setTokenExpiredHandler, tokenManager as apiTokenManager } from "../api/client";
 import { useToast } from "../components/Toast";
 
 const AuthContext = createContext(null);
@@ -27,6 +27,7 @@ export function AuthProvider({ children }) {
     (message) => {
       setUser(null);
       localStorage.removeItem("tokenExpiry"); // Clear stored expiry time
+      apiTokenManager.removeToken(); // Clear stored auth token
       toast.error(`Session Expired: ${message}`);
       console.log("Token expired:", message);
     },
@@ -75,6 +76,11 @@ export function AuthProvider({ children }) {
             localStorage.setItem("tokenExpiry", res.data.tokenExpiry);
           }
 
+          // Store auth token for API requests
+          if (res.data.token) {
+            apiTokenManager.setToken(res.data.token);
+          }
+
           console.log("Login successful - token expires in 1 hour");
           toast.success(
             "Welcome back! You are now logged in. Your session will expire in 1 hour."
@@ -87,6 +93,7 @@ export function AuthProvider({ children }) {
         console.error("Login error:", error);
         setUser(null); // Clear any partial state
         localStorage.removeItem("tokenExpiry"); // Clear any stored expiry
+        apiTokenManager.removeToken(); // Clear any stored token
         throw error; // Re-throw to be handled by the component
       }
     },
@@ -102,6 +109,11 @@ export function AuthProvider({ children }) {
         // Store token expiry time for the indicator
         if (res.data.tokenExpiry) {
           localStorage.setItem("tokenExpiry", res.data.tokenExpiry);
+        }
+
+        // Store auth token for API requests
+        if (res.data.token) {
+          apiTokenManager.setToken(res.data.token);
         }
 
         console.log("Registration successful - token expires in 1 hour");
@@ -123,6 +135,7 @@ export function AuthProvider({ children }) {
     setUser(null);
     tokenManager.destroy();
     localStorage.removeItem("tokenExpiry"); // Clear stored expiry time
+    apiTokenManager.removeToken(); // Clear stored auth token
     toast.info("You have been successfully logged out.");
   }, [toast]);
 
