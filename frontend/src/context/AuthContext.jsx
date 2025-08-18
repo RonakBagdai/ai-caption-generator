@@ -5,7 +5,6 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   getCurrentUser,
   login as loginApi,
@@ -142,9 +141,11 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("tokenExpiry"); // Clear stored expiry time
     apiTokenManager.removeToken(); // Clear stored auth token
     toast.info("You have been successfully logged out.");
-    // Navigate to home page to avoid 404 on refresh
-    navigate("/", { replace: true });
-  }, [toast, navigate]);
+    // Use window.location for more reliable navigation after logout
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 100); // Small delay to ensure toast shows
+  }, [toast]);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>
