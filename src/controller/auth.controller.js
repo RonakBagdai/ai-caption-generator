@@ -79,13 +79,16 @@ async function loginController(req, res) {
 }
 
 async function logoutController(req, res) {
-  // Clear auth cookie; mirror options used when setting it
+  // Clear auth cookie with same options used when setting it
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false, // set true in production with HTTPS
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: process.env.NODE_ENV === "production", // true in production over HTTPS
   });
-  return res.status(200).json({ message: "Logged out" });
+  return res.status(200).json({ 
+    message: "Logged out successfully",
+    authenticated: false 
+  });
 }
 
 module.exports = { registerController, loginController, logoutController };
