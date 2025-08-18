@@ -85,9 +85,9 @@ async function logoutController(req, res) {
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     secure: process.env.NODE_ENV === "production", // true in production over HTTPS
   });
-  return res.status(200).json({ 
+  return res.status(200).json({
     message: "Logged out successfully",
-    authenticated: false 
+    authenticated: false,
   });
 }
 
