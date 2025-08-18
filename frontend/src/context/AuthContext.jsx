@@ -12,7 +12,10 @@ import {
   logout as logoutApi,
 } from "../api/auth";
 import tokenManager from "../utils/tokenManager";
-import { setTokenExpiredHandler, tokenManager as apiTokenManager } from "../api/client";
+import {
+  setTokenExpiredHandler,
+  tokenManager as apiTokenManager,
+} from "../api/client";
 import { useToast } from "../components/Toast";
 
 const AuthContext = createContext(null);

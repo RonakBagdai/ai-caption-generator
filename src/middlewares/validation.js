@@ -2,6 +2,11 @@
 const validator = require("validator");
 
 function validateRegisterInput(req, res, next) {
+  // Debug: Log what we're receiving
+  console.log('Register validation - Headers:', req.headers['content-type']);
+  console.log('Register validation - Body:', req.body);
+  console.log('Register validation - Raw body type:', typeof req.body);
+  
   const { username, password } = req.body;
   const errors = [];
 

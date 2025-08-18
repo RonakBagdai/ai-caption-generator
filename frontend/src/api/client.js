@@ -25,27 +25,27 @@ export const setTokenExpiredHandler = (handler) => {
 // Token management
 export const tokenManager = {
   setToken: (token) => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem("authToken", token);
     // Update default Authorization header for all future requests
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
-  
+
   getToken: () => {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem("authToken");
   },
-  
+
   removeToken: () => {
-    localStorage.removeItem('authToken');
-    delete api.defaults.headers.common['Authorization'];
+    localStorage.removeItem("authToken");
+    delete api.defaults.headers.common["Authorization"];
   },
-  
+
   // Initialize token from localStorage on app start
   init: () => {
     const token = tokenManager.getToken();
     if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
-  }
+  },
 };
 
 // Initialize token on import
