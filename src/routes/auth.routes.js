@@ -18,6 +18,25 @@ const userModel = require("../models/user.model");
 
 const router = express.Router();
 
+// Debug endpoint to test body parsing
+router.post("/debug", (req, res) => {
+  console.log("Debug endpoint - Headers:", req.headers);
+  console.log("Debug endpoint - Body:", req.body);
+  console.log("Debug endpoint - Body type:", typeof req.body);
+  console.log("Debug endpoint - Content-Type:", req.get("Content-Type"));
+  
+  res.json({
+    success: true,
+    received: {
+      headers: req.headers,
+      body: req.body,
+      bodyType: typeof req.body,
+      contentType: req.get("Content-Type"),
+      bodyKeys: Object.keys(req.body || {}),
+    }
+  });
+});
+
 // Apply strict auth rate limiting only to login/register
 router.post(
   "/register",
