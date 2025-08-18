@@ -1,5 +1,1 @@
-# SPA redirect for React Router
 /*    /index.html   200
-
-# API routes should not be redirected
-/api/*  https://ai-caption-generator-3v6i.onrender.com/api/:splat  200
