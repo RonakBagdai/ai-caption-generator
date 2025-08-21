@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
       localStorage.removeItem("tokenExpiry"); // Clear stored expiry time
       apiTokenManager.removeToken(); // Clear stored auth token
       toast.error(`Session Expired: ${message}`);
-      console.log("Token expired:", message);
     },
     [toast]
   );
@@ -53,11 +52,9 @@ export function AuthProvider({ children }) {
     getCurrentUser()
       .then((res) => {
         setUser(res.data.user);
-        console.log("User authenticated, token valid for 1 hour");
       })
       .catch(() => {
         setUser(null);
-        console.log("No valid authentication found");
       })
       .finally(() => setLoading(false));
 
@@ -84,7 +81,6 @@ export function AuthProvider({ children }) {
             apiTokenManager.setToken(res.data.token);
           }
 
-          console.log("Login successful - token expires in 1 hour");
           toast.success(
             "Welcome back! You are now logged in. Your session will expire in 1 hour."
           );
@@ -119,7 +115,6 @@ export function AuthProvider({ children }) {
           apiTokenManager.setToken(res.data.token);
         }
 
-        console.log("Registration successful - token expires in 1 hour");
         toast.success(
           "Account created! You are now logged in. Your session will expire in 1 hour."
         );
@@ -133,7 +128,7 @@ export function AuthProvider({ children }) {
     try {
       await logoutApi();
     } catch (error) {
-      console.log("Logout API error:", error);
+      // Silently handle logout API errors - user still gets logged out locally
     }
     setUser(null);
     tokenManager.destroy();

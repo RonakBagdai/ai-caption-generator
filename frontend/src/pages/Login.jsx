@@ -15,11 +15,8 @@ export default function Login() {
     setError("");
     setLoading(true);
 
-    console.log("Attempting login for:", form.username);
-
     try {
       const result = await login(form.username, form.password);
-      console.log("Login result:", result);
       nav("/create");
     } catch (err) {
       console.error("Login error caught:", err);

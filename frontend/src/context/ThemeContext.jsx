@@ -32,15 +32,12 @@ export const ThemeProvider = ({ children }) => {
           : "light";
       }
 
-      console.log("Applying theme:", theme, "-> actual:", newTheme);
       setActualTheme(newTheme);
 
       if (newTheme === "dark") {
         document.documentElement.classList.add("dark");
-        console.log("Added dark class");
       } else {
         document.documentElement.classList.remove("dark");
-        console.log("Removed dark class");
       }
     };
 
@@ -56,7 +53,6 @@ export const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   const setThemePreference = (newTheme) => {
-    console.log("Setting theme to:", newTheme);
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };

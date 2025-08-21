@@ -60,14 +60,12 @@ api.interceptors.response.use(
     if (err.response?.status === 401) {
       const data = err.response.data;
       if (data?.code === "TOKEN_EXPIRED") {
-        console.log("Token expired - triggering logout");
         if (tokenExpiredHandler) {
           tokenExpiredHandler(
             "Token expired after 1 hour. Please log in again."
           );
         }
       } else if (data?.code === "INVALID_TOKEN") {
-        console.log("Invalid token - triggering logout");
         if (tokenExpiredHandler) {
           tokenExpiredHandler("Invalid authentication. Please log in again.");
         }
